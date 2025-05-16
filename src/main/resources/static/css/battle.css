@@ -12,6 +12,7 @@
     line-height: 30px;
 }
 
+/* da fare anche con computerships */
 .computer-ships {
     background-color: lightblue;
 }
@@ -37,11 +38,11 @@
 }
 
 .player-ships6 {
-    background-color: rgb(255, 0, 212);
+    background-color: rgb(231, 77, 206);
 }
 
 .player-ships7 {
-    background-color: rgb(168, 58, 150);
+    background-color: rgb(173, 0, 147);
 }
 
 .player-ships8 {
@@ -49,5 +50,5 @@
 }
 
 .player-ships9 {
-    background-color: rgb(165, 91, 153);
+    background-color: rgb(139, 46, 124);
 }

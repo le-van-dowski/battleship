@@ -1,3 +1,5 @@
+
+
 $(document).ready(function () {
     function createEmptyGrid(container) {
         for (let i = 0; i < 100; i++) {
@@ -20,20 +22,22 @@ $(document).ready(function () {
                     ship.nodes.forEach(node => {
                         const index = node.posx * 10 + node.posy;
                         $('#computer-grid .cell').eq(index).addClass('computer-ships');
-
+                        //ships tutte dello stesso colore
                     })
                 });
                 response.player.ships.forEach(ship => {
                     let boolSafe = false;
                     ship.nodes.forEach(node => {
-                        const index = node.posx * 10 + node.posy;
+                        const index = node.posx * 10 + node.posy; //realizza l'indice (funziona)
+                        //aggiunta colori diversi per ogni baraca
                         $('#player-grid .cell').eq(index).addClass('player-ships' + i);
-
+                        //se l'index è quello la classe vine aggiunta quindi se ha quella classe è una barca da colorare
                         if ($('#player-grid .cell').hasClass('player-ships' + i)) {
                             boolSafe = true;
                         }
                     })
                     if (boolSafe)
+                        //cambia colore
                         i++;
                 });
             },
@@ -65,21 +69,21 @@ $(document).ready(function () {
     });
     */
 
-    // Aaggiungiamo il click sulle celle del campo del computer
+    //click sul campo avversario
     $('#computer-grid').on('click', '.cell', function () {
         const index = $(this).data('index');
 
         $.ajax({
-            url: '/api/attacca/' + index,
+            url: '/api/attack/' + index, //da cambiare in /battle/attack/
             method: 'PUT',
             success: function (response) {
-                if (response.hit) {
+                if (response.hit) {//è una response ma hit nel mio caso non funziona va cambiato con un altra boolean
                     alert('Colpito!');
-                    // coloriamo di rosso
+                    //colora se colpita una barca
                     $('#computer-grid .cell').eq(index).css('background-color', 'red');
                 } else {
                     alert('Acqua!');
-                    // coloriamo di grigio
+                    //colora se preso acqua 
                     $('#computer-grid .cell').eq(index).css('background-color', 'lightgrey');
                 }
             },

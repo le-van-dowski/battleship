@@ -24,4 +24,6 @@ public class BattleController {
         griglie.put("computer", game.getAiBoard());
         return griglie;
     }
+    // da mettere l'attacco e la risposta del computer
+
 }
