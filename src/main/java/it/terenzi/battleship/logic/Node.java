@@ -1,8 +1,10 @@
 package it.terenzi.battleship.logic;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class Node {
 
     private int posx, posy;

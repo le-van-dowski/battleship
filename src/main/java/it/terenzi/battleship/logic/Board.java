@@ -6,7 +6,11 @@ import java.util.Random;
 
 import it.terenzi.battleship.logic.exceptions.AlredyHitException;
 import it.terenzi.battleship.logic.exceptions.InvalidPositionException;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
 public class Board {
 
     private boolean hidden = false;
@@ -19,12 +23,10 @@ public class Board {
     }
 
     public void placeShip(int posx, int posy, int lenght, boolean vertical) throws InvalidPositionException {
-        while (((posx + lenght - 1 > 9) && !vertical) || ((posy + lenght - 1 < 9) && vertical)) {
-            if (vertical) {
-                posy -= lenght - 1;
-            } else {
-                posx -= lenght - 1;
-            }
+        if (vertical && (posy + lenght) > 9) {
+            throw new InvalidPositionException("ship placement overlaps with another boat!!");
+        } else if (!vertical && (posx + lenght) > 9) {
+            throw new InvalidPositionException("ship placement overlaps with another boat!!");
         }
         boolean overlapped = false;
         for (Ship s : ships) {

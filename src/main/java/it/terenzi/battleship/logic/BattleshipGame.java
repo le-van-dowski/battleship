@@ -11,11 +11,19 @@ public class BattleshipGame {
     private Board playerBoard;
     private Board aiBoard;
 
-    public BattleshipGame(Board playerBoard, Board aiBoard) {
+    public BattleshipGame() {
         this.playerBoard = new Board();
         this.aiBoard = new Board();
-        aiBoard.randomizeShips();
+        this.aiBoard.randomizeShips();
+        this.playerBoard.randomizeShips();
     }
+    /*
+     * public BattleshipGame(Board playerBoard, Board aiBoard) {
+     * this.playerBoard = new Board();
+     * this.aiBoard = new Board();
+     * aiBoard.randomizeShips();
+     * }
+     */
 
     public void placePlayerShip(int posx, int posy, int lenght, boolean vertical) throws InvalidPositionException {
         playerBoard.placeShip(posx, posy, lenght, vertical);
