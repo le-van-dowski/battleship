@@ -14,20 +14,27 @@ $(document).ready(function () {
             url: '/battle/newgame',
             method: 'POST',
             success: function (response) {
-                //console.log(response)
+                console.log(response);
                 let i = 1;
                 response.computer.ships.forEach(ship => {
                     ship.nodes.forEach(node => {
                         const index = node.posx * 10 + node.posy;
-                        $('#computer-grid .cell').eq(index).addClass('ship-' + i);
-                        i++;
+                        $('#computer-grid .cell').eq(index).addClass('computer-ships');
+
                     })
                 });
                 response.player.ships.forEach(ship => {
+                    let boolSafe = false;
                     ship.nodes.forEach(node => {
                         const index = node.posx * 10 + node.posy;
-                        $('#player-grid .cell').eq(index).addClass('ship');
+                        $('#player-grid .cell').eq(index).addClass('player-ships' + i);
+
+                        if ($('#player-grid .cell').hasClass('player-ships' + i)) {
+                            boolSafe = true;
+                        }
                     })
+                    if (boolSafe)
+                        i++;
                 });
             },
             error: function () {

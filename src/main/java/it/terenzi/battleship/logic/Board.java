@@ -28,20 +28,13 @@ public class Board {
         } else if (!vertical && (posx + lenght) > 9) {
             throw new InvalidPositionException("ship placement overlaps with another boat!!");
         }
-        boolean overlapped = false;
-        for (Ship s : ships) {
-            for (Node n : s.getNodes()) {
-                for (int i = 0; i < lenght; i++) {
-                    overlapped = (vertical) ? n.getPosx() == posx + 1 && n.getPosy() == posy
-                            : n.getPosx() == posx && n.getPosy() == posy;
 
-                    if (overlapped) {
-                        throw new InvalidPositionException("ship placement overlaps with another boat!!");
-                    }
-                }
-            }
+        Ship nuova = new Ship(posx, posy, lenght, vertical);
+        for (Ship s : ships) {
+            if (s.overlap(nuova))
+                throw new InvalidPositionException("ship placement overlaps with another boat!!");
         }
-        ships.add(new Ship(posx, posy, lenght, vertical));
+        ships.add(nuova);
     }
 
     public void randomizeShips() {
@@ -54,8 +47,8 @@ public class Board {
             while (!placed) {
                 int posx = pO.nextInt(10);
                 int posy = pO.nextInt(10);
-                int vertical = pO.nextInt(2);
-                boolean v = vertical == 0 ? true : false;
+                // boolean v = vertical == 0 ? true : false;
+                Boolean v = pO.nextBoolean();
                 try {
                     placeShip(posx, posy, l[i], v);
                     placed = true;
