@@ -74,7 +74,7 @@ $(document).ready(function () {
         const index = $(this).data('index');
 
         $.ajax({
-            url: '/api/attack/' + index, //da cambiare in /battle/attack/
+            url: '/api/attacca/' + index, //da cambiare in /battle/attack/
             method: 'PUT',
             success: function (response) {
                 if (response.hit) {//è una response ma hit nel mio caso non funziona va cambiato con un altra boolean

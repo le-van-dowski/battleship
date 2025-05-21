@@ -18,7 +18,7 @@ public class BattleshipGame {
         this.playerBoard.randomizeShips();
     }
     /*
-     * public BattleshipGame(Board playerBoard, Board aiBoard) {
+     * public BattleshipGame() {
      * this.playerBoard = new Board();
      * this.aiBoard = new Board();
      * aiBoard.randomizeShips();
