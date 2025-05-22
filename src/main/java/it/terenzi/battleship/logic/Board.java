@@ -98,8 +98,7 @@ public class Board {
         return 0;
     }
 
-    public boolean hasLost() { // se almeno una barca non è affondata ritorna false, altrimenti l'avversario ha
-                               // vinto
+    public boolean hasLost() { // se almeno una barca non è affondata ritorna false, altrimenti l'avversario ha vinto
         for (Ship s : ships) {
             if (!s.isSunk())
                 return false;

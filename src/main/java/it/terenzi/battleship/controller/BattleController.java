@@ -1,5 +1,6 @@
 package it.terenzi.battleship.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import it.terenzi.battleship.logic.BattleshipGame;
 import it.terenzi.battleship.logic.Board;
+import it.terenzi.battleship.logic.Node;
+import it.terenzi.battleship.logic.exceptions.AlredyHitException;
 
 @RestController
 @RequestMapping("/battle")
@@ -28,19 +31,40 @@ public class BattleController {
     }
     // da mettere l'attacco e la risposta del computer
 
-    /*
-     * @PutMapping("/attack/{index}")
-     * public Map<String, Boolean> attack(@PathVariable int index) {
-     * boolean hit = computerShips.contains(index);
-     * Map<String, Boolean> result = new HashMap<>();
-     * result.put("hit", hit);
-     * 
-     * // se colpito, rimuoviamo la nave (opzionale)
-     * if (hit) {
-     * computerShips.remove(index);
-     * }
-     * 
-     * return result;
-     * }
-     */
+
+    @PutMapping("/attack/{index}")
+    public Map<String, Object> attack(@PathVariable int index) {
+     
+    Map<String, Object> response = new HashMap<>();
+    Map<String, Integer> aiResponse;
+
+    //  result.put("hit", hit);
+    //cordinate in indice
+        int x = index % 10;
+        int y = index / 10;
+
+        try {
+            //turno del player
+            int turnRes = game.playerTurn(new Node(x,y));
+            response.put("hit", (turnRes==1 || turnRes==2));
+            response.put("sunk", turnRes==2);
+            
+            //turno computer
+            aiResponse = game.aiTurn();
+            int aiResult = aiResponse.get("result");
+            int atkIndex = aiResponse.get("posY")*10 + aiResponse.get("posX");
+
+            response.put("aiHit",(aiResult==1 || aiResult==2));
+            response.put("aiSunk", aiResult);
+            response.put("indexAttacco", atkIndex);
+
+           
+        } catch (AlredyHitException e) {
+            response.put("error", "You suck");}
+
+        return response;
+    }
+    
+
+
 }

@@ -16,6 +16,12 @@ public class Node {
         this.status = status;
     }
 
+     public Node(int posx, int posy) {
+        this.posx = posx;
+        this.posy = posy;
+        
+    }
+    
     public boolean sameXY(Node n) {
         return this.posx == n.getPosx() && this.posy == n.getPosy();
 

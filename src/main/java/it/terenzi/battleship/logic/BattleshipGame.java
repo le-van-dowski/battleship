@@ -1,5 +1,8 @@
 package it.terenzi.battleship.logic;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import it.terenzi.battleship.logic.exceptions.AlredyHitException;
@@ -41,15 +44,22 @@ public class BattleshipGame {
         playerBoard = new Board();
     }
 
-    public int aiTurn() {
+    public Map<String, Integer> aiTurn() {
+        Map<String, Integer> response = new HashMap<>();
         Random r = new Random(System.currentTimeMillis());
         while (true) {
             try {
-                int result = playerBoard.tryHit(new Node(r.nextInt(10), r.nextInt(10), null));
+                int x,y;
+                x=r.nextInt(10);
+                y=r.nextInt(10);
+                int result = playerBoard.tryHit(new Node(x, y, null));
                 if (playerBoard.hasLost()) {
                     playerBoard.endGame();
                 }
-                return result;
+                response.put("result", result);
+                response.put("posX",x);
+                response.put("posY",y);
+                
             } catch (Exception e) {
             }
         }
