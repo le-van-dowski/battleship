@@ -14,6 +14,7 @@ $(document).ready(function () {
 //aggiungi disabilita bottone start
         $('#start').prop('disabled', true);
 
+        
         $.ajax({
             url: '/battle/newgame',
             method: 'POST',
@@ -100,4 +101,11 @@ $(document).ready(function () {
             }
         });
     });
+
+    $('#reset').on('click', function () {
+        $('#player-grid').empty();
+        $('#computer-grid').empty();
+        $('#start').prop('disabled', false);
+    });
+    
 });
