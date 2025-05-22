@@ -1,6 +1,5 @@
 package it.terenzi.battleship.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,7 +52,7 @@ public class BattleController {
             aiResponse = game.aiTurn();
             int aiResult = aiResponse.get("result");
             int atkIndex = aiResponse.get("posY")*10 + aiResponse.get("posX");
-
+            //aggiungi alla response la stringa e il valore
             response.put("aiHit",(aiResult==1 || aiResult==2));
             response.put("aiSunk", aiResult);
             response.put("indexAttacco", atkIndex);

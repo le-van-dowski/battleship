@@ -12,43 +12,39 @@
     line-height: 30px;
 }
 
-/* da fare anche con computerships */
 .computer-ships {
-    background-color: lightblue;
+    background-color: rgb(0, 96, 129);
 }
-
 .player-ships4 {
     background-color: rgb(226, 78, 201);
 }
-
 .player-ships1 {
     background-color: rgb(238, 116, 218);
 }
-
 .player-ships2 {
     background-color: rgb(168, 106, 158);
 }
-
 .player-ships3 {
     background-color: rgb(255, 148, 237);
 }
-
 .player-ships5 {
     background-color: rgb(248, 176, 236);
 }
-
 .player-ships6 {
     background-color: rgb(231, 77, 206);
 }
-
 .player-ships7 {
     background-color: rgb(173, 0, 147);
 }
-
 .player-ships8 {
     background-color: rgb(105, 0, 88);
 }
-
 .player-ships9 {
     background-color: rgb(139, 46, 124);
 }
+.hit { 
+    background-color: red; 
+}
+.miss {
+    background-color: blue;
+ }

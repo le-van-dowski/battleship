@@ -1,4 +1,4 @@
-package it.terenzi.battleship.controller;
+/*package it.terenzi.battleship.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,4 +52,4 @@ public class FieldController {
         return new ArrayList<>(posizioni);
     }
 
-}
+}*/

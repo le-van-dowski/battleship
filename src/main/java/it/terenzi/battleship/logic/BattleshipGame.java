@@ -1,6 +1,5 @@
 package it.terenzi.battleship.logic;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;

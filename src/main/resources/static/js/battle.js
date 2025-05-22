@@ -11,6 +11,8 @@ $(document).ready(function () {
     $('#start').on('click', function () {
         createEmptyGrid('#player-grid');
         createEmptyGrid('#computer-grid');
+//aggiungi disabilita bottone start
+        $('#start').prop('disabled', true);
 
         $.ajax({
             url: '/battle/newgame',
@@ -49,42 +51,48 @@ $(document).ready(function () {
     });
 
 
-    /*
-    // Chiamata AJAX per ottenere le posizioni casuali
-    $.ajax({
-        url: '/api/popola-griglie',
-        method: 'GET',
-        success: function (response) {
-            // response = { player: [1, 23, 45], computer: [10, 20, 30] }
-            response.player.forEach(index => {
-                $('#player-grid .cell').eq(index).addClass('ship');
-            });
-            response.computer.forEach(index => {
-                $('#computer-grid .cell').eq(index).addClass('ship');
-            });
-        },
-        error: function () {
-            alert('Errore nel caricamento delle griglie!');
-        }
-    });
-    */
-
     //click sul campo avversario
     $('#computer-grid').on('click', '.cell', function () {
-        const index = $(this).data('index');
+        
+        const gridCell = $(this);
+        const index = gridCell.data('index');
+        console.log(" grid cell index: " + index);
+
+        //controlla a inizio gioco se la cella è già colpita
+        if (gridCell.hasClass('hit') || gridCell.hasClass('miss')) {
+            alert('Hai già colpito questa cella!');
+            return;
+        }
 
         $.ajax({
-            url: '/api/attacca/' + index, //da cambiare in /battle/attack/
+            url: '/battle/attack/' + index, //da cambiare in /battle/attack/
             method: 'PUT',
             success: function (response) {
                 if (response.hit) {//è una response ma hit nel mio caso non funziona va cambiato con un altra boolean
                     alert('Colpito!');
-                    //colora se colpita una barca
-                    $('#computer-grid .cell').eq(index).css('background-color', 'red');
-                } else {
-                    alert('Acqua!');
-                    //colora se preso acqua 
-                    $('#computer-grid .cell').eq(index).css('background-color', 'lightgrey');
+                    //addclass hit alla cella per il controllo
+                    gridCell.addClass('hit');
+                    /*$('#computer-grid .cell').eq(index).css('background-color', 'red');*/
+                } 
+                if (response.sunk) {
+                    alert('Nave affondata!');
+                }else {
+                    alert('Mancato!');
+                    //addclass miss alla cella per il controllo
+                    gridCell.addClass('miss');
+                    /*$('#computer-grid .cell').eq(index).css('background-color', 'lightblue');*/
+
+                }
+
+                if (response.indexAttacco !== undefined) {
+                    const playerCell = $('#player-grid .cell').eq(response.indexAttacco);
+                    if (response.aiHit) {
+                        playerCell.addClass('hit');
+                        console.log("ai hit the cell " + response.indexAttacco);
+                    } else {
+                        playerCell.addClass('miss');
+                        console.log("ai missed the cell " + response.indexAttacco);
+                    }
                 }
             },
             error: function () {
