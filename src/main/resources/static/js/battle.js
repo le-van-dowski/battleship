@@ -8,6 +8,9 @@ $(document).ready(function () {
         }
     }
     function onLoad() {
+
+        $('#player-grid').empty();
+        $('#computer-grid').empty();
         createEmptyGrid('#player-grid');
         createEmptyGrid('#computer-grid');
     }
@@ -15,8 +18,7 @@ $(document).ready(function () {
     onLoad();
 
     $('#start').on('click', function () {
-
-
+        onLoad();
         if ($('#start').html() == 'Reset') {
             $('#start').text("Start");
         } else {
