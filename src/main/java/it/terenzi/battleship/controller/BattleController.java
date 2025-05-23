@@ -3,6 +3,7 @@ package it.terenzi.battleship.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -30,40 +31,38 @@ public class BattleController {
     }
     // da mettere l'attacco e la risposta del computer
 
-
-    @PutMapping("/attack/{index}")
+    @GetMapping("/attack/{index}")
     public Map<String, Object> attack(@PathVariable int index) {
-     
-    Map<String, Object> response = new HashMap<>();
-    Map<String, Integer> aiResponse;
 
-    //  result.put("hit", hit);
-    //cordinate in indice
+        Map<String, Object> response = new HashMap<>();
+        Map<String, Integer> aiResponse;
+
+        // result.put("hit", hit);
+        // cordinate in indice
         int x = index % 10;
         int y = index / 10;
 
         try {
-            //turno del player
-            int turnRes = game.playerTurn(new Node(x,y));
-            response.put("hit", (turnRes==1 || turnRes==2));
-            response.put("sunk", turnRes==2);
-            
-            //turno computer
+            // turno del player
+            int turnRes = game.playerTurn(new Node(x, y));
+            response.put("hit", turnRes > 0);
+            response.put("sunk", turnRes == 2);
+
+            // turno computer
             aiResponse = game.aiTurn();
             int aiResult = aiResponse.get("result");
-            int atkIndex = aiResponse.get("posY")*10 + aiResponse.get("posX");
-            //aggiungi alla response la stringa e il valore
-            response.put("aiHit",(aiResult==1 || aiResult==2));
-            response.put("aiSunk", aiResult);
+            int atkIndex = aiResponse.get("posY") * 10 + aiResponse.get("posX");
+            // aggiungi alla response la stringa e il valore
+            response.put("aiHit", aiResult > 0);
+            response.put("aiSunk", aiResult == 2);
             response.put("indexAttacco", atkIndex);
 
-           
         } catch (AlredyHitException e) {
-            response.put("error", "You suck");}
+            response.put("error", e.getMessage());
+        }
 
         return response;
-    }
-    
 
+    }
 
 }

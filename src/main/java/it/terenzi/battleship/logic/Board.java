@@ -61,10 +61,10 @@ public class Board {
 
     public int tryHit(Node node) throws AlredyHitException {// 0 hit water, 1 hit ship, 2 ship sunk
         // control hits
-        if (!((node.getStatus() == State.HITSHIP) || (node.getStatus() == State.SHIP))) {
+        if ((node.getStatus() == State.HITSHIP) || (node.getStatus() == State.HITWATER)) {
             for (Node n : hittenWaterNodes) {
                 if (n.equals(node)) {
-                    throw new AlredyHitException("this node alredy got hitten");
+                    throw new AlredyHitException("this node alredy got hitten1");
                 }
             }
             hittenWaterNodes.add(node);
@@ -78,11 +78,6 @@ public class Board {
                 }
             }
         } else {
-            for (Node n : hittenShipNodes) {
-                if (n.equals(node)) {
-                    throw new AlredyHitException("this node alredy got hitten");
-                }
-            }
             hittenShipNodes.add(node);
             for (Ship s : ships) {
                 for (Node n : s.getNodes()) {
@@ -98,7 +93,8 @@ public class Board {
         return 0;
     }
 
-    public boolean hasLost() { // se almeno una barca non è affondata ritorna false, altrimenti l'avversario ha vinto
+    public boolean hasLost() { // se almeno una barca non è affondata ritorna false, altrimenti l'avversario ha
+                               // vinto
         for (Ship s : ships) {
             if (!s.isSunk())
                 return false;

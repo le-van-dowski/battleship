@@ -48,17 +48,19 @@ public class BattleshipGame {
         Random r = new Random(System.currentTimeMillis());
         while (true) {
             try {
-                int x,y;
-                x=r.nextInt(10);
-                y=r.nextInt(10);
+                int x, y;
+                x = r.nextInt(10);
+                y = r.nextInt(10);
                 int result = playerBoard.tryHit(new Node(x, y, null));
                 if (playerBoard.hasLost()) {
                     playerBoard.endGame();
                 }
                 response.put("result", result);
-                response.put("posX",x);
-                response.put("posY",y);
-                
+                response.put("posX", x);
+                response.put("posY", y);
+
+                return response;
+
             } catch (Exception e) {
             }
         }

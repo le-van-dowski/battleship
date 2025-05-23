@@ -4,34 +4,44 @@ $(document).ready(function () {
     function createEmptyGrid(container) {
         for (let i = 0; i < 100; i++) {
             $(container).append('<div class="cell" data-index="' + i + '"></div>');
+            $(container).find('.cell').removeClass('hit miss ship');
         }
     }
-
-
-    $('#start').on('click', function () {
+    function onLoad() {
         createEmptyGrid('#player-grid');
         createEmptyGrid('#computer-grid');
-//aggiungi disabilita bottone start
-        $('#start').prop('disabled', true);
+    }
 
-        
+    onLoad();
+
+    $('#start').on('click', function () {
+
+
+        if ($('#start').html() == 'Reset') {
+            $('#start').text("Start");
+        } else {
+            $('#start').text("Reset");
+        }
+
+
+
         $.ajax({
             url: '/battle/newgame',
             method: 'POST',
             success: function (response) {
                 console.log(response);
                 let i = 1;
-                response.computer.ships.forEach(ship => {
+                /*response.computer.ships.forEach(ship => {
                     ship.nodes.forEach(node => {
-                        const index = node.posx * 10 + node.posy;
+                        const index = node.posx + node.posy * 10;
                         $('#computer-grid .cell').eq(index).addClass('computer-ships');
                         //ships tutte dello stesso colore
                     })
-                });
+                });*/
                 response.player.ships.forEach(ship => {
                     let boolSafe = false;
                     ship.nodes.forEach(node => {
-                        const index = node.posx * 10 + node.posy; //realizza l'indice (funziona)
+                        const index = node.posx + node.posy * 10; //realizza l'indice (funziona)
                         //aggiunta colori diversi per ogni baraca
                         $('#player-grid .cell').eq(index).addClass('player-ships' + i);
                         //se l'index è quello la classe vine aggiunta quindi se ha quella classe è una barca da colorare
@@ -54,10 +64,11 @@ $(document).ready(function () {
 
     //click sul campo avversario
     $('#computer-grid').on('click', '.cell', function () {
-        
+
         const gridCell = $(this);
         const index = gridCell.data('index');
-        console.log(" grid cell index: " + index);
+        /*console.log(" grid cell index: " + index);
+        console.log(gridCell);*/
 
         //controlla a inizio gioco se la cella è già colpita
         if (gridCell.hasClass('hit') || gridCell.hasClass('miss')) {
@@ -67,18 +78,19 @@ $(document).ready(function () {
 
         $.ajax({
             url: '/battle/attack/' + index, //da cambiare in /battle/attack/
-            method: 'PUT',
+            method: 'GET',
             success: function (response) {
-                if (response.hit) {//è una response ma hit nel mio caso non funziona va cambiato con un altra boolean
-                    alert('Colpito!');
+                console.log(response);
+                if (response.hit) {
+                    $('#status').text("colpito!");
                     //addclass hit alla cella per il controllo
+
                     gridCell.addClass('hit');
                     /*$('#computer-grid .cell').eq(index).css('background-color', 'red');*/
-                } 
-                if (response.sunk) {
-                    alert('Nave affondata!');
-                }else {
-                    alert('Mancato!');
+
+                    if (response.sunk) $('#status').text("nave affondata!");
+                } else {
+                    $('#status').text("mancato!");
                     //addclass miss alla cella per il controllo
                     gridCell.addClass('miss');
                     /*$('#computer-grid .cell').eq(index).css('background-color', 'lightblue');*/
@@ -97,15 +109,14 @@ $(document).ready(function () {
                 }
             },
             error: function () {
-                alert('Errore nell\'attacco!');
+                $('#status').text("Errore nell\'attacco!");
             }
         });
     });
 
-    $('#reset').on('click', function () {
-        $('#player-grid').empty();
-        $('#computer-grid').empty();
-        $('#start').prop('disabled', false);
-    });
-    
+    // $('#start').on('click', function () {
+    //     $('#player-grid').empty();
+    //     $('#computer-grid').empty();
+    // });
+
 });
