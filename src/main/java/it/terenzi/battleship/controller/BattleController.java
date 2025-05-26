@@ -36,6 +36,7 @@ public class BattleController {
 
         Map<String, Object> response = new HashMap<>();
         Map<String, Integer> aiResponse;
+        Boolean playerLoss, aiLoss;
 
         // result.put("hit", hit);
         // cordinate in indice
@@ -43,6 +44,13 @@ public class BattleController {
         int y = index / 10;
 
         try {
+            // check player loss
+            playerLoss = game.getPlayerBoard().hasLost();
+            // se true ha perso
+            response.put("playerLost", playerLoss);
+            aiLoss = game.getAiBoard().hasLost();
+            response.put("aiLost", aiLoss);
+
             // turno del player
             int turnRes = game.playerTurn(new Node(x, y));
             response.put("hit", turnRes > 0);

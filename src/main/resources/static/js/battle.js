@@ -1,4 +1,5 @@
 
+let gameOver = false;
 
 $(document).ready(function () {
     function createEmptyGrid(container) {
@@ -25,7 +26,7 @@ $(document).ready(function () {
             $('#start').text("Reset");
         }
 
-
+        gameOver = false;
 
         $.ajax({
             url: '/battle/newgame',
@@ -78,6 +79,10 @@ $(document).ready(function () {
             return;
         }
 
+        if (gameOver) {
+            return;
+        }
+
         $.ajax({
             url: '/battle/attack/' + index, //da cambiare in /battle/attack/
             method: 'GET',
@@ -109,16 +114,19 @@ $(document).ready(function () {
                         console.log("ai missed the cell " + response.indexAttacco);
                     }
                 }
+
+                if (response.playerLost) {
+                    $('#status').text("Game Over! computer has won!");
+                    gameOver = true;
+                } else if (response.aiLost) {
+                    $('#status').text("player has won!");
+                    gameOver = true;
+                }
             },
             error: function () {
                 $('#status').text("Errore nell\'attacco!");
             }
         });
     });
-
-    // $('#start').on('click', function () {
-    //     $('#player-grid').empty();
-    //     $('#computer-grid').empty();
-    // });
 
 });
