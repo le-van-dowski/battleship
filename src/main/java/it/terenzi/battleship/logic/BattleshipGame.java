@@ -51,7 +51,7 @@ public class BattleshipGame {
                 int x, y;
                 x = r.nextInt(10);
                 y = r.nextInt(10);
-                int result = playerBoard.tryHit(new Node(x, y, null));
+                int result = playerBoard.tryHit(new Node(x, y));
                 if (playerBoard.hasLost()) {
                     playerBoard.endGame();
                 }
