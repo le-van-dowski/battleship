@@ -104,7 +104,7 @@ $(document).ready(function () {
 
                 }
 
-                if (response.indexAttacco !== undefined) {
+                if (response.indexAttacco != undefined) {
                     const playerCell = $('#player-grid .cell').eq(response.indexAttacco);
                     if (response.aiHit) {
                         playerCell.addClass('hit');
